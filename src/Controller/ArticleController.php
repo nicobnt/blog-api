@@ -3,11 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Article;
-use JMS\Serializer\SerializerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * Class ArticleController
@@ -19,7 +19,6 @@ class ArticleController extends AbstractController
      * @Route("/articles", name="article_create", methods={"POST"}, )
      *
      * @param Request $request
-     * @param SerializerInterface $serializable
      *
      * @return Response
      *
@@ -43,9 +42,8 @@ class ArticleController extends AbstractController
      *
      * @return Response
      */
-    public function show(int $id, SerializerInterface $serializer): Response{
-
-        $article = $this->getDoctrine()->getRepository(Article::class)->find($id);
+    public function show(Article $article, SerializerInterface $serializer): Response
+    {
 
         $data = $serializer->serialize($article, "json");
 
@@ -61,7 +59,8 @@ class ArticleController extends AbstractController
      *
      * @return Response
      */
-    public function list(SerializerInterface $serializer): Response{
+    public function list(SerializerInterface $serializer): Response
+    {
 
         $articles = $this->getDoctrine()->getRepository(Article::class)->findAll();
 

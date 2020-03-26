@@ -7,8 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  *
- * @ORM\Entity()
- * @ORM\Table(name="blog_api_article")
+ * @ORM\Entity(repositoryClass="App\Repository\ArticleRepository")
+ * @ORM\Table()
  *
  * Class Article
  * @package App\Entity
@@ -19,15 +19,23 @@ class Article
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     *
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=100)
+     *
      */
     private $title;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Author")
+     */
+    private $author;
+
+    /**
+     *
      * @ORM\Column(type="text")
      */
     private $content;
@@ -59,5 +67,15 @@ class Article
         $this->content = $content;
 
         return $this;
+    }
+
+    public function getAuthor()
+    {
+        return $this->author;
+    }
+
+    public function setAuthor($author): void
+    {
+        $this->author = $author;
     }
 }
